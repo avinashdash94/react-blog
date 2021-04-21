@@ -78,6 +78,18 @@ app.post('/api/user/login', (req, res) => {
     
 })
 
+//Following function is used to logout the user
+app.get('/api/user/logout', auth ,(req, res) => {//First we authenticate the user
+    //In the following line we update the user by removing token when there will not be any token in the cookie it will logout user  
+    //After authenticate the user we get req.user which is added in request obj in auth.js
+    User.findOneAndUpdate({_id: req.user._id}, {token: ""}, (err, doc) =>{ //doc: indicates the user info
+        if(err) return res.json({success: false, err})
+
+        return res.status(200).send({
+            success:true
+        })
+    })
+});
 
 app.get('/', function (req, res) {  
     // res.send("Hello world" );  
