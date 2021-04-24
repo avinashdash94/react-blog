@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //This method is used for authentication after user loged in
-app.get('/api/user/auth', auth, (req, res) => {// here we import auth.js and use to check authentication 
+app.get('/api/users/auth', auth, (req, res) => {// here we import auth.js and use to check authentication 
     res.status(200).json({ //if succesfully authnticated then return the json data
         _id: req._id,
         isAuth: true,
@@ -47,7 +47,7 @@ app.post('/api/users/register', (req, res) => {
 });
 
 //for log in
-app.post('/api/user/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     // finde email in Db exist or not
     User.findOne({email: req.body.email}, (err, user) => {
         if(!user) //if user is not exit
@@ -58,11 +58,10 @@ app.post('/api/user/login', (req, res) => {
         // compare  the password with Db password
 
         user.comparePassword(req.body.password, (err, isMatch) => {
-            if(!isMatch)
-            return res.json({
-                loginSuccess: false, message: "wrong password"
-            })
-        })
+            if(!isMatch){
+                return res.json({loginSuccess: false, message: "wrong password" });
+            }            
+        });
 
         //generate the token
         user.generateToken((err, user) => {
@@ -96,4 +95,8 @@ app.get('/', function (req, res) {
     res.json("Hello Json" );  
  })  
 
-app.listen(5000);
+//Port variable is used to make port number dynamic if it is deployed on some server like Heroku
+const port = process.env.PORT  || 5000
+app.listen(port, () => {
+    console.log(`Server Running at ${port}`);
+});
