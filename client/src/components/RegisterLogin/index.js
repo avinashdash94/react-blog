@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/user_actions';// impoted the action to send user data to Action then Reducer then get the responce
+import { Link } from 'react-router-dom';
 
 class RegisterLogin extends Component {
     state = {
@@ -72,7 +73,7 @@ class RegisterLogin extends Component {
                                     type="email"
                                     className="validate"
                                 />
-                                <label htmlFor="email">Email</label>
+                                <label  htmlFor="email">Email</label>
                                 <span className="helper-text"
                                     data-error=" Type a right type email"
                                     data-success="right"
@@ -114,8 +115,20 @@ class RegisterLogin extends Component {
                                 onClick={this.submitForm}
                                 >
                                     Login
+                                </button> &nbsp; &nbsp;
+
+                                {/* Register Button */}
+                                <Link to="/register">
+                                <button className="btn waves-effect red lighten-2"
+                                type="submit"
+                                name="action"
+                                >
+                                    Sign up
                                 </button>
+                                </Link>
                             </div>
+
+                            
                         </div>
                     </form>
 
